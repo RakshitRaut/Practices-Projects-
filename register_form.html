@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Walukar Salon</title>
+  <style>
+    body { font-family: Arial; padding: 20px; max-width: 600px; margin: auto; }
+    input, select { width: 100%; padding: 10px; margin: 5px 0 15px; }
+    .error { color: red; font-size: 0.9em; margin-top: -10px; }
+    button { padding: 10px 20px;color: #000; }
+  </style>
+  </head>
+<body>
+    <h2>User Form</h2>
+
+
+
+    <div class="form-container">
+    <h2>Register</h2>
+    <form action="register.html" onsubmit="return validate_user()">
+        <label>Username</label>
+        <input type="text" name="username" id="username" required>
+        <div class="error" id="usernameerror"></div>
+        <!-- <input type="email" name="email" placeholder="Email" required> -->
+         <label>Password</label>
+        <input type="password" name="password" id="password" required>
+        <div class="error" id="passwordError"></div>
+        <label> ConfirmPassword</label>
+        <input type="password" name="confirm_password" id="confirmpassword" required>
+        <div class="error" id="ConfirmPasswordError"></div>
+        <input type="submit" value="Submit" name="Submit">
+        <!-- <button type="button" value="submit" onclick="window.location.href='register.html'">Submit</button> -->
+        <button type="button" value="register" onclick="window.location.href='register.html'">register</button>
+ 
+
+    </form>
+    </div>
+  </div>
+<script>
+    function validate_user() {
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+        let confirmPassword = document.getElementById("confirmpassword").value;
+        console.log(password);
+         console.log(confirmpassword);
+         if(username ==""){
+            document.getElementById("usernameerror").innerText ='username is required';
+             return false;
+         }
+         
+        if(password ==""){
+            document.getElementById("password").innerText ='password is required';
+            return false;
+        }
+        if(confirmPassword ==""){
+            document.getElementById("confirmpassworderror").innerText ='confirm password is required';
+            return false;
+        }
+        if(password.length < 8) {
+            document.getElementById("passwordError").innerText ='Password must be 8 characters';
+            return false;
+        }
+        if(password.value !== confirmPassword.value){
+                        document.getElementById("ConfirmPasswordError").innerText ='password and confirm password must be same';
+
+            //  document.getElementById("confirmpasswordError").innerText ='password and confirm password must be same';
+             return false;
+        }
+        window.location.href='register.html';
+        return true;
+    }
+</script>
+</body>
+</html>

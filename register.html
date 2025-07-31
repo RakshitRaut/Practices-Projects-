@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Advanced Form Validation</title>
+  <style>
+    body { font-family: Arial; padding: 20px; max-width: 600px; margin: auto; }
+    input, select { width: 100%; padding: 10px; margin: 5px 0 15px; }
+    .error { color: red; font-size: 0.9em; margin-top: -10px; }
+    button { padding: 10px 20px; }
+  </style>
+</head>
+<body>
+  <h2>Login Form</h2>
+
+
+
+
+  <h2>Advanced Registration Form</h2>
+  <form id="advancedForm" onsubmit="return validateAdvancedForm()">
+
+    <label>Full Name:-</label>
+    <input type="text" id="fullName">
+    <div class="error" id="fullNameError"></div>
+
+    <label>Email (Gmail only):</label>
+    <input type="email" id="email">
+    <div class="error" id="emailError"></div>
+
+    <label>Password:</label>
+    <input type="password" id="password">
+    <div class="error" id="passwordError"></div>
+
+    <label>Age:</label>
+    <input type="number" id="age">
+    <div class="error" id="ageError"></div>
+
+    <label>Phone Number:</label>
+    <input type="text" id="phone">
+    <div class="error" id="phoneError"></div>
+
+    <label>Website URL:</label>
+    <input type="url" id="website">
+    <div class="error" id="websiteError"></div>
+
+    <label>ZIP Code (India):</label>
+    <input type="text" id="zip">
+    <div class="error" id="zipError"></div>
+
+    <label>Date of Birth:</label>
+    <input type="date" id="dob">
+    <div class="error" id="dobError"></div>
+
+    <label><input type="checkbox" id="terms"> I agree to the terms and conditions</label>
+    <div class="error" id="termsError"></div>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <script>
+    function validateAdvancedForm() {
+      let isValid = true;
+
+      const fullName = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const age = parseInt(document.getElementById('age').value);
+      const phone = document.getElementById('phone').value.trim();
+      const website = document.getElementById('website').value.trim();
+      const zip = document.getElementById('zip').value.trim();
+      const dob = document.getElementById('dob').value;
+      const terms = document.getElementById('terms').checked;
+
+      // Reset all errors
+      document.querySelectorAll('.error').forEach(el => el.innerText = '');
+
+      // Full name (at least 2 words, letters only)
+      if (!/^[A-Za-z]+(\s[A-Za-z]+)+$/.test(fullName)) {
+        document.getElementById('fullNameError').innerText = "Enter at least first and last name (letters only).";
+        isValid = false;
+      }
+
+      // Gmail-only email
+      if (!/^[\w.-]+@gmail\.com$/.test(email)) {
+        document.getElementById('emailError').innerText = "Only Gmail addresses allowed.";
+        isValid = false;
+      }
+
+      // Strong password
+      if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/.test(password)) {
+        document.getElementById('passwordError').innerText = "Password must be 8+ chars with upper, lower, number, special char.";
+        isValid = false;
+      }
+
+      // Age between 18 and 60
+      if (isNaN(age) || age < 18 || age > 60) {
+        document.getElementById('ageError').innerText = "Age must be between 18 and 60.";
+        isValid = false;
+      }
+
+      // Phone 10 digits
+      if (!/^\d{10}$/.test(phone)) {
+        document.getElementById('phoneError').innerText = "Enter a valid 10-digit phone number.";
+        isValid = false;
+      }
+
+      // Website must be https:// format
+      if (!/^https:\/\/[\w.-]+\.[a-z]{2,}$/.test(website)) {
+        document.getElementById('websiteError').innerText = "Enter a valid HTTPS website URL.";
+        isValid = false;
+      }
+
+      // ZIP Code (India)
+      if (!/^\d{6}$/.test(zip)) {
+        document.getElementById('zipError').innerText = "ZIP code must be 6 digits.";
+        isValid = false;
+      }
+
+      // DOB: must be 18 years old minimum
+      if (dob) {
+        const dobDate = new Date(dob);
+        const today = new Date();
+        const ageFromDOB = today.getFullYear() - dobDate.getFullYear();
+        const monthDiff = today.getMonth() - dobDate.getMonth();
+        if (
+          ageFromDOB < 18 || 
+          (ageFromDOB === 18 && monthDiff < 0)
+        ) {
+          document.getElementById('dobError').innerText = "You must be at least 18 years old.";
+          isValid = false;
+        }
+      } else {
+        document.getElementById('dobError').innerText = "Please enter your birth date.";
+        isValid = false;
+      }
+
+      // Terms checkbox
+      if (!terms) {
+        document.getElementById('termsError').innerText = "You must agree to continue.";
+        isValid = false;
+      } 
+
+      return isValid;
+    }
+  </script>
+
+</body>
+</html>
